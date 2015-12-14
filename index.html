@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>关于$watch的问题</title>
+</head>
+<body>
+<div ms-controller="test">
+	<div>
+		<h2>有内容的数组</h2>
+		<div><input type="text" ms-duplex="arr_1[0].a"></div>
+
+		<div>监听变化次数：<span ms-text="coount_1"></span></div>
+	</div>
+
+	<div>
+		<h2>后添加内容的数组</h2>
+		<div><input type="text" ms-duplex="arr_2[0].a"></div>
+
+		<div>监听变化次数：<span ms-text="coount_2"></span></div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="avalon.js"></script>
+<script type="text/javascript">
+	$(function(){
+	 	var model = avalon.define({
+	        $id: "test",
+	        arr_1: [{
+	            a: '1'
+	        }],
+	        arr_2:[],
+	        coount_1:0,
+	        coount_2:0
+	    })
+
+	    model.arr_2[model.arr_2.length]={
+	    	a:'2'
+	    }
+
+	    model.$watch('arr_1.*.a', function(o) {
+	        model.coount_1++;
+	    });
+
+	    model.$watch('arr_2.*.a', function(o) {
+	        model.coount_2++;
+	    });
+	})
+</script>
+</html>
